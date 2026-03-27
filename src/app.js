@@ -17,4 +17,7 @@ app.use(cookieParser());
 
 
 app.use("/api", playerRouter)
+app.get("/",(req, res)=>{
+    res.json({ success: true, message: "welcome to players server"})
+})
 export default app;
