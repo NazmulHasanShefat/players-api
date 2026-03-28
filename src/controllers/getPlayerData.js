@@ -1,27 +1,52 @@
 import Player from "../model/players.model.js"
 
 export const getPlayerData = async (req, res)=>{
-    const { name, country, ability } = req.query;
-    const quaryObj = {};
+    // query for search
+    const { query } = req.query;
+    // query for filter
+    const { name, country, ability } = req.query; 
+    const queryObj = {};
+    
     if(country){
-        quaryObj.country = { $regex: country, $options: "i"}
+        queryObj.country = { $regex: country, $options: "i"}
     }
     if(ability){
-        quaryObj.ability = { $regex: ability, $options: "i"}
+        queryObj.ability = { $regex: ability, $options: "i"}
     }
     if(name){
-        quaryObj.name = { $regex: name, $options: "i"}
+        queryObj.name = { $regex: name, $options: "i"}
     }
+
     try {
-        const players = await Player.find(quaryObj);
-        if(players.length === 0){
-            return res.json({ success: false, message: "No player found"});
+        if(query){
+            const players = await Player.find({
+                $or: [
+                    { name: {$regex: query, $options:"i" }},
+                    { country: {$regex: query, $options:"i" }},
+                    { playerType: {$regex: query, $options:"i" }},
+                    { ability: {$regex: query, $options:"i" }},
+                ]
+            });
+            if(players.length === 0){
+                return res.json({ success: false, message: "No player found"});
+            }
+            return res.json({
+                success: true,
+                totalPlayers: players.length,
+                players: players
+            })
+        }else{
+            const players = await Player.find(queryObj);
+              if(players.length === 0){
+                return res.json({ success: false, message: "No player found"});
+            }
+            return res.json({
+                success: true,
+                totalPlayers: players.length,
+                players: players
+            })
         }
-        return res.json({
-            success: true,
-            totalPlayers: players.length,
-            players: players
-        })
+
     } catch (error) {
         return res.json({ success: false, message: error.message})
     }
