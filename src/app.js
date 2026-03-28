@@ -7,7 +7,9 @@ const app = express();
 
 app.use(cors(
     {
-        origin: ["http://localhost:5600"],
+        origin: function (origin, callback) {
+            callback(null, true); // সব origin allow (undefined হলেও)
+        },
         credentials: true,
     }
 ))
@@ -16,8 +18,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 
-app.use("/api", playerRouter)
-app.get("/",(req, res)=>{
-    res.json({ success: true, message: "welcome to players server"})
+app.use("/api", playerRouter);
+
+app.get("/", (req, res) => {
+    res.json({ success: true, message: "welcome to players server" })
 })
 export default app;
