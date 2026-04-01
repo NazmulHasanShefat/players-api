@@ -13,9 +13,11 @@ app.use(cors(
         credentials: true,
     }
 ))
+
 app.use(express.json());
 // for save cookie client browser
 app.use(cookieParser());
+
 
 
 app.use("/api", playerRouter);
