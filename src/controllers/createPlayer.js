@@ -13,6 +13,7 @@ export const createPlayer = async (req, res)=>{
         }
         const newPlayer = new Player({  name, playerImageURL, country, ability, rating, playerType, playerPrice });
         await newPlayer.save();
+        
         return res.json({ success: true, message: "player added successfully"});
     } catch (error) {
         return res.json(

@@ -88,6 +88,7 @@ export const logout = async (req, res) => {
 export const sendVerifyOtp = async (req, res) => {
     try {
         const userId = req.userId;
+        
         const user = await DreemUser.findById(userId);
 
         // userIsVerified property from DreemUser model (user model)

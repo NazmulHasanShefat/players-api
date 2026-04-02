@@ -14,7 +14,7 @@ playerRouter.post("/verify-otp", userAuth, verifyOtp);
 playerRouter.post("/is-authentic", userAuth, isAuthenticated);
 playerRouter.post("/sendpas-reset-otp", userAuth, sendPasswordResetOtp);
 playerRouter.post("/verify-reset-otp", userAuth, verifyandSetResetOtp);
-
+playerRouter.post("/create-player", createPlayer)
 
 playerRouter.post("/create-player", createPlayer);
 playerRouter.get("/all-players", getPlayerData);
